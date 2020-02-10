@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class AccessControllerTest {
+class AnonymousAccessTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -25,9 +25,8 @@ class AccessControllerTest {
         this.mockMvc.perform(get("/api/v1/public")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Test public access")));
     }
-
     @Test
     public void shouldNotReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/api/v1/private")).andDo(print()).andExpect(status().isForbidden());
+        this.mockMvc.perform(get("/api/v1/protected")).andDo(print()).andExpect(status().isForbidden());
     }
 }

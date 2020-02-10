@@ -15,6 +15,9 @@ public class AccessController {
 
     @GetMapping("/protected")
     public String protectedAccess(){
-        return "Test public access";
+        return "Test protected access";
     }
+
+    @GetMapping("/admin")
+    public String adminAccess() {return "Admin access";}
 }
