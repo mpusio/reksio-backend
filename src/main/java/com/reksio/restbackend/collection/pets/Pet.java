@@ -6,15 +6,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pet {
+    @Size(max=30, message = "Pet name cannot be longer, than 30 characters.")
     private String name;
-    private String gender;
-    private int age;
+    @NotNull
+    private Gender gender;
+    private int ageInDays;
     private String color;
+    @NotNull
     private int price;
+    @NotNull
     private Type type;
 }
