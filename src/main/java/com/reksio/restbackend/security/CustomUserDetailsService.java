@@ -2,9 +2,9 @@ package com.reksio.restbackend.security;
 
 import com.reksio.restbackend.exception.UserHaveNotRoleException;
 import com.reksio.restbackend.exception.UserIsNotActiveException;
-import com.reksio.restbackend.user.Role;
-import com.reksio.restbackend.user.User;
-import com.reksio.restbackend.user.UserRepository;
+import com.reksio.restbackend.collection.user.Role;
+import com.reksio.restbackend.collection.user.User;
+import com.reksio.restbackend.collection.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

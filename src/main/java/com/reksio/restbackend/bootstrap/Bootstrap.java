@@ -1,8 +1,8 @@
 package com.reksio.restbackend.bootstrap;
 
-import com.reksio.restbackend.user.Role;
-import com.reksio.restbackend.user.User;
-import com.reksio.restbackend.user.UserRepository;
+import com.reksio.restbackend.collection.user.Role;
+import com.reksio.restbackend.collection.user.User;
+import com.reksio.restbackend.collection.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

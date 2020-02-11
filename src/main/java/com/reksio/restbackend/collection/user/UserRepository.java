@@ -1,4 +1,4 @@
-package com.reksio.restbackend.user;
+package com.reksio.restbackend.collection.user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

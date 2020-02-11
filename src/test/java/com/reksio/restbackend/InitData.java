@@ -2,7 +2,7 @@ package com.reksio.restbackend;
 
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
-import com.reksio.restbackend.user.Role;
+import com.reksio.restbackend.collection.user.Role;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;

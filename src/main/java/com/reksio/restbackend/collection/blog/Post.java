@@ -1,4 +1,4 @@
-package com.reksio.restbackend.user;
+package com.reksio.restbackend.collection.blog;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,20 +7,22 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Document
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Post {
 
     @Id
     private String id;
-    private String email;
-    private String password;
-    private List<Role> roles;
-    private boolean isActive;
+    private String title;
+    private String content;
+    private List<String> tags;
+    private String createdBy;
 
+    private Date editedAt;
 }
