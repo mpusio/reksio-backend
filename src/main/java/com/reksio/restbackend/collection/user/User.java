@@ -24,7 +24,7 @@ public class User {
 
     @Id
     private String id;
-    @Pattern(regexp = "^[\\\\w!#$%&’*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$", message = "Invalid email pattern")
+    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", message = "Invalid email pattern")
     private String email;
     @Pattern(regexp = "((?=.*[a-z])(?=.*d)(?=.*[A-Z]).{6,16})", message = "Password must contain 6-16 characters, one capital letter, one lower letter and one number.")
     private String password;

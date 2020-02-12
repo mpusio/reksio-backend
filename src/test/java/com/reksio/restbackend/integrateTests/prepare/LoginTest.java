@@ -1,6 +1,7 @@
-package com.reksio.restbackend;
+package com.reksio.restbackend.integrateTests.prepare;
 
 
+import com.reksio.restbackend.integrateTests.prepare.InitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
-public abstract class LoginTest extends InitData{
+public abstract class LoginTest extends InitData {
 
     @Autowired
     MockMvc mockMvc;
