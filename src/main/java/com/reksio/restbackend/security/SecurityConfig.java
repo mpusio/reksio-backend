@@ -20,14 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/public").permitAll()
-                .antMatchers("/api/v1/admin").hasRole("ADMIN")
-                .antMatchers("/v2/api-docs",
-                        "/swagger-resources/configuration/ui",
-                        "/swagger-resources",
-                        "/swagger-resources/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**").permitAll()
+                .antMatchers("/test/public").permitAll()
+                .antMatchers("/test/admin").hasRole("ADMIN")
+                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))

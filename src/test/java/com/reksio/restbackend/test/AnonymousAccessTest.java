@@ -22,11 +22,11 @@ class AnonymousAccessTest {
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/api/v1/public")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/test/public")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Test public access")));
     }
     @Test
     public void shouldNotReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/api/v1/protected")).andDo(print()).andExpect(status().isForbidden());
+        this.mockMvc.perform(get("/test/protected")).andDo(print()).andExpect(status().isForbidden());
     }
 }

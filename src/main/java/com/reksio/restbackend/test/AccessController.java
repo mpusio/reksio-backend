@@ -1,11 +1,13 @@
 package com.reksio.restbackend.test;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/test")
+@Api(value = "Test controller check access.")
 public class AccessController {
 
     @GetMapping("/public")
