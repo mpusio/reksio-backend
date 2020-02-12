@@ -1,4 +1,4 @@
-package com.reksio.restbackend;
+package com.reksio.restbackend.integrateTests.prepare;
 
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
