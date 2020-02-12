@@ -2,7 +2,6 @@ package com.reksio.restbackend.collection.user;
 
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.collection.blog.Post;
-import com.reksio.restbackend.collection.token.Token;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.reksio.restbackend.collection.pets.type;
+package com.reksio.restbackend.collection.advertisement.pets.type;
 
 public enum CatsBreed implements Type {
     Siamese,

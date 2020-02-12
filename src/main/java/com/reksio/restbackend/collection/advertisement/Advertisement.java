@@ -1,6 +1,6 @@
 package com.reksio.restbackend.collection.advertisement;
 
-import com.reksio.restbackend.collection.pets.Pet;
+import com.reksio.restbackend.collection.advertisement.pets.Pet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

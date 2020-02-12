@@ -1,4 +1,4 @@
-package com.reksio.restbackend.collection.token;
+package com.reksio.restbackend.collection.user;
 
 public enum Token {
     BLUE(1, 15, 5),

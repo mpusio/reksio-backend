@@ -1,6 +1,6 @@
-package com.reksio.restbackend.collection.pets;
+package com.reksio.restbackend.collection.advertisement.pets;
 
-import com.reksio.restbackend.collection.pets.type.Type;
+import com.reksio.restbackend.collection.advertisement.pets.type.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
