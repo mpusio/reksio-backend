@@ -31,7 +31,7 @@ public class UserAccessTest extends LoginTest{
     @Test
     public void shouldAchieveAccessWithTokenAsAdmin() throws Exception {
         this.mockMvc
-                .perform(get("/api/v1/admin")
+                .perform(get("/test/admin")
                         .header("Authorization", adminToken))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -41,7 +41,7 @@ public class UserAccessTest extends LoginTest{
     @Test
     public void shouldNotAchieveAccessWithTokenAsUser() throws Exception {
         this.mockMvc
-                .perform(get("/api/v1/admin")
+                .perform(get("/test/admin")
                         .header("Authorization", userToken))
                 .andDo(print())
                 .andExpect(status().isForbidden());
@@ -50,7 +50,7 @@ public class UserAccessTest extends LoginTest{
     @Test
     public void shouldAchieveAccessWithTokenAsUser() throws Exception {
         this.mockMvc
-                .perform(get("/api/v1/protected")
+                .perform(get("/test/protected")
                         .header("Authorization", userToken))
                 .andDo(print())
                 .andExpect(status().isOk())
