@@ -1,4 +1,4 @@
-package com.reksio.restbackend.user;
+package com.reksio.restbackend.collection.user;
 
 public enum Role {
     ADMIN,
