@@ -1,7 +1,7 @@
 package com.reksio.restbackend.registration;
 
 import com.reksio.restbackend.collection.user.User;
-import com.reksio.restbackend.exception.UserInvalidFormException;
+import com.reksio.restbackend.exception.UserInvalidFieldException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ public class RegistrationController {
     public User register(@Valid @RequestBody RegistrationRequest request, BindingResult result){
 
         if(result.hasErrors()){
-            throw new UserInvalidFormException(
+            throw new UserInvalidFieldException(
                     result
                         .getFieldErrors()
                         .stream()

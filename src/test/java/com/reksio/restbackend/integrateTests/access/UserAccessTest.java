@@ -1,4 +1,4 @@
-package com.reksio.restbackend.integrateTests;
+package com.reksio.restbackend.integrateTests.access;
 
 import com.reksio.restbackend.integrateTests.prepare.LoginTest;
 import org.junit.jupiter.api.BeforeAll;

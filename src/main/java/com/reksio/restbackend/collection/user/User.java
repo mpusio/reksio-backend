@@ -2,10 +2,7 @@ package com.reksio.restbackend.collection.user;
 
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.collection.blog.Post;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Document
-@Getter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

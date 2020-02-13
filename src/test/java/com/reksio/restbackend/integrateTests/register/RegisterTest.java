@@ -1,4 +1,4 @@
-package com.reksio.restbackend.integrateTests;
+package com.reksio.restbackend.integrateTests.register;
 
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.registration.RegistrationRequest;
