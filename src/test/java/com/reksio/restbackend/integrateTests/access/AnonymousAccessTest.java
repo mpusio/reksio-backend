@@ -1,4 +1,4 @@
-package com.reksio.restbackend.integrateTests;
+package com.reksio.restbackend.integrateTests.access;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

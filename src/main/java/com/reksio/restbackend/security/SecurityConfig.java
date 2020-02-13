@@ -1,6 +1,7 @@
 package com.reksio.restbackend.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,7 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/test/public", "/api/v1/register").permitAll()
+                .antMatchers("/test/public").permitAll()
+                .antMatchers("/api/v1/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/user").permitAll()
                 .antMatchers("/test/admin").hasRole("ADMIN")
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()

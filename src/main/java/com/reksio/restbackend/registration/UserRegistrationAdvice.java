@@ -1,23 +1,42 @@
 package com.reksio.restbackend.registration;
 
+import com.reksio.restbackend.exception.ExceptionResponse;
 import com.reksio.restbackend.exception.UserExistException;
 import com.reksio.restbackend.exception.UserInvalidFormException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+
+import java.util.Date;
 
 @RestControllerAdvice
 public class UserRegistrationAdvice {
+
     @ExceptionHandler(UserExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String userExistAdvice(UserExistException ex) {
-        return ex.getMessage()+ " Try pass another email.";
+    public ExceptionResponse userExistAdvice(UserExistException ex, WebRequest request){
+        return ExceptionResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.CONFLICT.value())
+                .error(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .solution("Pass different email.")
+                .build();
     }
 
     @ExceptionHandler(UserInvalidFormException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public String userInvalidParametersAdvice(UserInvalidFormException ex) {
-        return ex.getMessage();
+    public ExceptionResponse userInvalidParametersAdvice(UserInvalidFormException ex, WebRequest request) {
+        return ExceptionResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.NOT_ACCEPTABLE.value())
+                .error(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .solution("Pass correct data.")
+                .build();
     }
 }
