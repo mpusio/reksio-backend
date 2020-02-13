@@ -1,8 +1,8 @@
-package com.reksio.restbackend.registration;
+package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.exception.ExceptionResponse;
-import com.reksio.restbackend.exception.UserExistException;
 import com.reksio.restbackend.exception.UserInvalidFieldException;
+import com.reksio.restbackend.exception.UserNotEqualsPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,20 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.Date;
 
 @RestControllerAdvice
-public class UserRegistrationAdvice {
-
-    @ExceptionHandler(UserExistException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ExceptionResponse userExistAdvice(UserExistException ex, WebRequest request){
-        return ExceptionResponse.builder()
-                .timestamp(new Date())
-                .status(HttpStatus.CONFLICT.value())
-                .error(HttpStatus.CONFLICT.getReasonPhrase())
-                .message(ex.getMessage())
-                .path(request.getDescription(false).replace("uri=", ""))
-                .solution("Pass different email.")
-                .build();
-    }
+public class UserAdvice {
 
     @ExceptionHandler(UserInvalidFieldException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
@@ -37,6 +24,19 @@ public class UserRegistrationAdvice {
                 .message(ex.getMessage())
                 .path(request.getDescription(false).replace("uri=", ""))
                 .solution("Pass correct data.")
+                .build();
+    }
+
+    @ExceptionHandler(UserNotEqualsPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse userInvalidPasswordAdvice(UserNotEqualsPasswordException ex, WebRequest request) {
+        return ExceptionResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .solution("Pass correct old password.")
                 .build();
     }
 }

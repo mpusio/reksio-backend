@@ -1,8 +1,11 @@
 package com.reksio.restbackend.user;
 
+import com.reksio.restbackend.exception.UserInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
-import com.reksio.restbackend.user.dto.UserRequest;
+import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
+import com.reksio.restbackend.user.dto.UserUpdateProfileRequest;
 import com.reksio.restbackend.user.dto.UserProfileResponse;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,24 +27,38 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public void updateProfile(@Valid @RequestBody UserRequest userRequest, HttpServletRequest servletRequest){
-//        String token = servletRequest.getHeader("Authentication");
-//        String email = JwtUtil.fetchEmail(token);
+    public UserProfileResponse updateProfile(@Valid @RequestBody UserUpdateProfileRequest userUpdateProfileRequest, BindingResult result,  HttpServletRequest servletRequest){
+        String token = servletRequest.getHeader("Authorization");
+        String email = JwtUtil.fetchEmail(token);
 
-        throw new RuntimeException("Waiting for implementation");
+        if(result.hasErrors()){
+            throw new UserInvalidFieldException(
+                    result
+                            .getFieldErrors()
+                            .stream()
+                            .map(f -> f.getField() + ": " + f.getDefaultMessage())
+                            .reduce((a, b) -> a + b)
+                            .toString());
+        }
+
+        return userService.updateUserDetails(email, userUpdateProfileRequest);
     }
 
     @PutMapping("/user/password")
-    public void changePassword(){
-        throw new RuntimeException("Waiting for implementation");
+    public UserProfileResponse changePassword(@Valid @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest, BindingResult result,  HttpServletRequest servletRequest){
+        if(result.hasErrors()){
+            throw new UserInvalidFieldException(
+                    result
+                            .getFieldErrors()
+                            .stream()
+                            .map(f -> f.getField() + ": " + f.getDefaultMessage())
+                            .reduce((a, b) -> a + b)
+                            .toString());
+        }
+
+        String token = servletRequest.getHeader("Authorization");
+        String email = JwtUtil.fetchEmail(token);
+
+        return userService.updatePassword(email, userUpdatePasswordRequest);
     }
-
-    @PutMapping("/user/email")
-    public void changeEmail(){
-        throw new RuntimeException("Waiting for implementation");
-    }
-
-
-    //add advertisement
-    //add post (bloger)
 }
