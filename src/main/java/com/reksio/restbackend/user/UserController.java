@@ -1,6 +1,6 @@
 package com.reksio.restbackend.user;
 
-import com.reksio.restbackend.exception.UserInvalidFieldException;
+import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
 import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
 import com.reksio.restbackend.user.dto.UserUpdateProfileRequest;

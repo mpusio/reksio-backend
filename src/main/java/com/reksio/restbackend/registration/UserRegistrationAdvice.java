@@ -1,8 +1,8 @@
 package com.reksio.restbackend.registration;
 
 import com.reksio.restbackend.exception.ExceptionResponse;
-import com.reksio.restbackend.exception.UserExistException;
-import com.reksio.restbackend.exception.UserInvalidFieldException;
+import com.reksio.restbackend.exception.user.UserExistException;
+import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

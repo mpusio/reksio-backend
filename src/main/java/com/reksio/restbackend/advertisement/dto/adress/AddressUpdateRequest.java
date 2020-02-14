@@ -1,4 +1,4 @@
-package com.reksio.restbackend.collection.advertisement;
+package com.reksio.restbackend.advertisement.dto.adress;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,8 @@ import javax.validation.constraints.Pattern;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Adress {
+public class AddressUpdateRequest {
+
     @NotEmpty
     private String city;
     @Pattern(regexp = "[0-9]{2}-[0-9]{3}", message = "Required format: XX-XXX")

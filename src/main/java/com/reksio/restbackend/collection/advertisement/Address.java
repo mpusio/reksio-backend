@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Contact {
-    private String phone;
-    private String facebookUrl;
-    private String details;
+public class Address {
+    private String city;
+    private String postCode;
 }

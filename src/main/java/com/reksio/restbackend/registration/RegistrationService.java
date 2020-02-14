@@ -3,7 +3,7 @@ package com.reksio.restbackend.registration;
 import com.reksio.restbackend.collection.user.Role;
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
-import com.reksio.restbackend.exception.UserExistException;
+import com.reksio.restbackend.exception.user.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

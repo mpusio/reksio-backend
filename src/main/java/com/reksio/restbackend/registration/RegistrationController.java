@@ -1,7 +1,7 @@
 package com.reksio.restbackend.registration;
 
 import com.reksio.restbackend.collection.user.User;
-import com.reksio.restbackend.exception.UserInvalidFieldException;
+import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
