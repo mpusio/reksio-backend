@@ -1,7 +1,7 @@
 package com.reksio.restbackend.security;
 
-import com.reksio.restbackend.exception.UserHaveNotRoleException;
-import com.reksio.restbackend.exception.UserIsNotActiveException;
+import com.reksio.restbackend.exception.user.UserHaveNotRoleException;
+import com.reksio.restbackend.exception.user.UserIsNotActiveException;
 import com.reksio.restbackend.collection.user.Role;
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;

@@ -1,4 +1,4 @@
-package com.reksio.restbackend.exception;
+package com.reksio.restbackend.exception.user;
 
 public class UserExistException extends RuntimeException {
 

@@ -1,8 +1,8 @@
 package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.exception.ExceptionResponse;
-import com.reksio.restbackend.exception.UserInvalidFieldException;
-import com.reksio.restbackend.exception.UserNotEqualsPasswordException;
+import com.reksio.restbackend.exception.user.UserInvalidFieldException;
+import com.reksio.restbackend.exception.user.UserNotEqualsPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

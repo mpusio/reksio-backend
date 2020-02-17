@@ -2,8 +2,8 @@ package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
-import com.reksio.restbackend.exception.UserExistException;
-import com.reksio.restbackend.exception.UserNotEqualsPasswordException;
+import com.reksio.restbackend.exception.user.UserExistException;
+import com.reksio.restbackend.exception.user.UserNotEqualsPasswordException;
 import com.reksio.restbackend.user.dto.UserProfileResponse;
 import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
 import com.reksio.restbackend.user.dto.UserUpdateProfileRequest;
