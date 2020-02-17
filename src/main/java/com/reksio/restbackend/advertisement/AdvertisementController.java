@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,9 +40,17 @@ public class AdvertisementController {
         return advertisementService.addAdvertisementForUser(email, advertisementSaveRequest);
     }
 
-    @GetMapping("/advertisement")
-    public AdvertisementResponse getAdvertisement(@RequestParam UUID uuid){
+    @GetMapping("/advertisement/{uuid}")
+    public AdvertisementResponse getAdvertisement(@PathVariable UUID uuid){
         return advertisementService.getAdvertisement(uuid);
+    }
+
+    @GetMapping("/advertisement")
+    public List<AdvertisementResponse> getAllUserAdvertisement(HttpServletRequest servletRequest){
+        String token = servletRequest.getHeader("Authorization");
+        String email = JwtUtil.fetchEmail(token);
+
+        return advertisementService.getAllAdvertisementsBelongToUser(email);
     }
 
     @PutMapping("/advertisement")

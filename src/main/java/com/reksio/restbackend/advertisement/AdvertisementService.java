@@ -3,16 +3,21 @@ package com.reksio.restbackend.advertisement;
 import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
-import com.reksio.restbackend.collection.advertisement.Advertisement;
-import com.reksio.restbackend.collection.advertisement.AdvertisementRepository;
+import com.reksio.restbackend.collection.advertisement.*;
+import com.reksio.restbackend.collection.advertisement.pets.Type;
 import com.reksio.restbackend.exception.advertisement.AdvertisementFailedDeleteExcetion;
+import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
 import com.reksio.restbackend.exception.advertisement.AdvertisementOwnerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static com.reksio.restbackend.advertisement.dto.AdvertisementResponse.convertToAdvertisementResponse;
 
 @Service
 public class AdvertisementService {
@@ -25,6 +30,8 @@ public class AdvertisementService {
     }
 
     public AdvertisementResponse addAdvertisementForUser(String email, AdvertisementSaveRequest request) {
+        checkTypeBelongToCategory(request.getPet().getType(), request.getCategory());
+
         Advertisement advertisement = Advertisement.builder()
                 .uuid(UUID.randomUUID())
                 .title(request.getTitle())
@@ -42,7 +49,13 @@ public class AdvertisementService {
                 .build();
 
         Advertisement insert = advertisementRepository.insert(advertisement);
-        return AdvertisementResponse.convertToAdvertisementResponse(insert);
+        return convertToAdvertisementResponse(insert);
+    }
+
+    private void checkTypeBelongToCategory(Type type, Category category){
+        if (!type.isInCategory(category)){
+            throw new AdvertisementInvalidFieldException("Type " + type + " do not belong to " + category + " category.");
+        }
     }
 
     private LocalDateTime thirtyDaysExpirationTime(){
@@ -51,13 +64,13 @@ public class AdvertisementService {
 
     public AdvertisementResponse getAdvertisement(UUID uuid) {
         Advertisement advertisement = advertisementRepository.findByUuid(uuid).orElseThrow(() -> new AdvertisementNotExistException("Cannot find advertisement with uuid " + uuid));
-        return AdvertisementResponse.convertToAdvertisementResponse(advertisement);
+        return convertToAdvertisementResponse(advertisement);
     }
 
     public AdvertisementResponse updateAdvertisement(String email, AdvertisementUpdateRequest request) {
         UUID uuid = request.getUuid();
         Advertisement advertisement = advertisementRepository.findByUuid(uuid).orElseThrow(() -> new AdvertisementNotExistException("Cannot find advertisement with uuid " + uuid));
-        if(advertisement.getCreatedBy().equals(email)) throw new AdvertisementOwnerException("User " + email + "is not the owner of advertisement");
+        if(!advertisement.getCreatedBy().equals(email)) throw new AdvertisementOwnerException("User " + email + "is not the owner of advertisement");
 
         advertisement.setTitle(nullChecker(request.getTitle(), advertisement.getTitle()));
         advertisement.setPrice(nullChecker(request.getPrice(), advertisement.getPrice()));
@@ -67,7 +80,7 @@ public class AdvertisementService {
         advertisement.setAddress(nullChecker(request.getAddress(), advertisement.getAddress()));
         advertisement.setContact(nullChecker(request.getContact(), advertisement.getContact()));
 
-        return AdvertisementResponse.convertToAdvertisementResponse(advertisementRepository.save(advertisement));
+        return convertToAdvertisementResponse(advertisementRepository.save(advertisement));
     }
 
     private <T> T nullChecker(T fieldToInsert, T actualField){
@@ -82,5 +95,11 @@ public class AdvertisementService {
         if (deleteResult==0L){
             throw new AdvertisementFailedDeleteExcetion("Cannot delete advertisement " + uuid);
         }
+    }
+
+    public List<AdvertisementResponse> getAllAdvertisementsBelongToUser(String email) {
+        return advertisementRepository.findAllByCreatedBy(email).stream()
+                .map(AdvertisementResponse::convertToAdvertisementResponse)
+                .collect(Collectors.toList());
     }
 }

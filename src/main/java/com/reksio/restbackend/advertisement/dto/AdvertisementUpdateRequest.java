@@ -1,12 +1,10 @@
 package com.reksio.restbackend.advertisement.dto;
 
-import com.reksio.restbackend.advertisement.dto.adress.AddressUpdateRequest;
 import com.reksio.restbackend.collection.advertisement.Address;
 import com.reksio.restbackend.collection.advertisement.Contact;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -29,14 +27,6 @@ public class AdvertisementUpdateRequest {
     private String youtubeUrl;
     @Size(max = 2000, message = "Description cannot be longer than 2000 signs.")
     private String description;
-    @Valid
-    private AddressUpdateRequest address;
+    private Address address;
     private Contact contact;
-
-    public Address getAddress(){
-        return Address.builder()
-                .city(this.address.getCity())
-                .postCode(this.address.getPostCode())
-                .build();
-    }
 }
