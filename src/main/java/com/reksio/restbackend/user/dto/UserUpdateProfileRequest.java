@@ -1,6 +1,5 @@
 package com.reksio.restbackend.user.dto;
 
-import com.reksio.restbackend.collection.user.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,6 +16,4 @@ public class UserUpdateProfileRequest {
     @Size(max = 500, message = "Description cannot be longer, than 500 characters.")
     private String description;
     private byte[] image;
-
-    //private static User
 }
