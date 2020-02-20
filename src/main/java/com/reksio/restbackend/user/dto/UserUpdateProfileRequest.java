@@ -15,5 +15,5 @@ public class UserUpdateProfileRequest {
     private String lastName;
     @Size(max = 500, message = "Description cannot be longer, than 500 characters.")
     private String description;
-    private byte[] image;
+    private String image;
 }

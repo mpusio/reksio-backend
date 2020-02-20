@@ -1,6 +1,5 @@
-package com.reksio.restbackend.integrateTests.prepare;
+package com.reksio.restbackend.integrateTests;
 
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import com.reksio.restbackend.collection.advertisement.Address;
@@ -76,7 +75,7 @@ public abstract class InitData {
                         .phone("123456789")
                         .details("Call to me at 8 pm - 9 pm")
                         .build())
-                .images(List.of(new byte[1]))
+                .images(List.of("path/to/image"))
                 .pet(Pet.builder()
                         .gender(Gender.MALE)
                         .name("Cinamon")

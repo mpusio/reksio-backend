@@ -2,7 +2,7 @@ package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
-import com.reksio.restbackend.exception.user.UserExistException;
+import com.reksio.restbackend.exception.user.UserNotExistException;
 import com.reksio.restbackend.exception.user.UserNotEqualsPasswordException;
 import com.reksio.restbackend.user.dto.UserProfileResponse;
 import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
@@ -24,13 +24,13 @@ public class UserService {
     }
 
     public UserProfileResponse fetchUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserExistException("Cannot find user."));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotExistException(email));
 
         return UserProfileResponse.convertFromUser(user);
     }
 
     public UserProfileResponse updateUserDetails(String email, UserUpdateProfileRequest updateRequest) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserExistException("Cannot find user."));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotExistException(email));
 
         user.setFirstName(nullChecker(updateRequest.getFirstName(), user.getFirstName()));
         user.setLastName(nullChecker(updateRequest.getLastName(), user.getLastName()));
@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public UserProfileResponse updatePassword(String email, UserUpdatePasswordRequest updateRequest) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserExistException("Cannot find user."));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotExistException(email));
 
         String newPasswordEncoded = encoder.encode(updateRequest.getNewPassword());
 

@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ public class Advertisement {
     private Category category;
     private Pet pet;
     private int price;
-    private List<byte[]> images;
+    private List<String> images;
     private String youtubeUrl;
     private String description;
     private int priority;
@@ -34,5 +33,5 @@ public class Advertisement {
     private Address address;
     private Contact contact;
     private String createdBy;
-    private Date editedAt;
+    private LocalDateTime editedAt;
 }

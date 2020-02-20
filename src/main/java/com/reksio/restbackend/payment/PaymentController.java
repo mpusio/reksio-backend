@@ -1,13 +1,14 @@
 package com.reksio.restbackend.payment;
 
 import com.reksio.restbackend.collection.user.Token;
+import com.reksio.restbackend.exception.payment.ChargeFailedException;
 import com.reksio.restbackend.security.JwtUtil;
 import com.reksio.restbackend.token.TokenService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,6 +25,7 @@ public class PaymentController {
     }
 
     @PostMapping("/charge")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public PaymentResponse createCharge(@RequestBody PaymentRequest paymentRequest, HttpServletRequest servletRequest) {
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
@@ -33,15 +35,11 @@ public class PaymentController {
         int amount = paymentRequest.getAmount();
 
         if (paymentToken == null) {
-            return new PaymentResponse(false, "Stripe payment token is missing. Please, try again later.");
+            throw new ChargeFailedException("Stripe payment token is missing. Please, try again later.");
         }
 
-        Optional<String> charge = stripeService.createCharge(email, paymentToken, promoToken.getPrice(), amount);
-
-        if (charge.isEmpty()) {
-            return new PaymentResponse(false, "An error occurred while trying to create a charge.");
-        }
-        else tokenService.giveTokensForUser(promoToken, amount, email);
+        stripeService.createCharge(email, paymentToken, promoToken.getPrice(), amount);
+        tokenService.saveTokensForUser(promoToken, amount, email);
 
         return new PaymentResponse(true, "Your charge was success!");
     }

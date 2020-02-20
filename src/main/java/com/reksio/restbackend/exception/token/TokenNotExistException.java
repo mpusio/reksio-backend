@@ -1,8 +1,7 @@
 package com.reksio.restbackend.exception.token;
 
 public class TokenNotExistException extends RuntimeException{
-    public TokenNotExistException() {
-    }
+    public TokenNotExistException() { super();}
 
     public TokenNotExistException(String message) {
         super(message);

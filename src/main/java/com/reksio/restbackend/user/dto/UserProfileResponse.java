@@ -16,7 +16,7 @@ public class UserProfileResponse {
     private String firstName;
     private String lastName;
     private String description;
-    private byte[] image;
+    private String image;
     private List<Advertisement> advertisements;
     private List<Post> posts;
     private List<Token> tokens;
@@ -28,8 +28,6 @@ public class UserProfileResponse {
                 .lastName(user.getLastName())
                 .description(user.getDescription())
                 .image(user.getImage())
-                .advertisements(user.getAdvertisements())
-                .posts(user.getPosts())
                 .tokens(user.getTokens())
                 .build();
     }

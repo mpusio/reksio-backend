@@ -2,6 +2,7 @@ package com.reksio.restbackend.registration;
 
 import com.reksio.restbackend.exception.ExceptionResponse;
 import com.reksio.restbackend.exception.user.UserExistException;
+import com.reksio.restbackend.exception.user.UserNotExistException;
 import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,19 @@ public class UserRegistrationAdvice {
                 .timestamp(new Date())
                 .status(HttpStatus.CONFLICT.value())
                 .error(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .solution("Pass different email.")
+                .build();
+    }
+
+    @ExceptionHandler(UserNotExistException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionResponse userExistAdvice(UserNotExistException ex, WebRequest request){
+        return ExceptionResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.getReasonPhrase())
                 .message(ex.getMessage())
                 .path(request.getDescription(false).replace("uri=", ""))
                 .solution("Pass different email.")

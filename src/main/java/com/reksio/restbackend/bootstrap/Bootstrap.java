@@ -21,7 +21,7 @@ public class Bootstrap {
 
     @PostConstruct
     public void insertUser(){
-        userRepository.deleteAll();
+        userRepository.deleteByEmail("michal@gmail.com");
 
         User user = User.builder()
                 .email("michal@gmail.com")

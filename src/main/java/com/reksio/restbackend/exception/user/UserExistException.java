@@ -1,8 +1,8 @@
 package com.reksio.restbackend.exception.user;
 
 public class UserExistException extends RuntimeException {
-
     public UserExistException() {
+        super();
     }
 
     public UserExistException(String message) {

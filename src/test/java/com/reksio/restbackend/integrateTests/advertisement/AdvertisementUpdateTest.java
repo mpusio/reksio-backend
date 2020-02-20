@@ -9,7 +9,7 @@ import com.reksio.restbackend.collection.advertisement.Contact;
 import com.reksio.restbackend.collection.advertisement.pets.Gender;
 import com.reksio.restbackend.collection.advertisement.pets.Pet;
 import com.reksio.restbackend.collection.advertisement.pets.Type;
-import com.reksio.restbackend.integrateTests.prepare.LoginTest;
+import com.reksio.restbackend.integrateTests.LoginTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -70,7 +70,7 @@ public class AdvertisementUpdateTest extends LoginTest {
                         .phone("123456789")
                         .details("Call to me at 8 pm - 9 pm")
                         .build())
-                .images(List.of(new byte[1]))
+                .images(List.of("path/to/image"))
                 .pet(Pet.builder()
                         .gender(Gender.MALE)
                         .name("Cinamon")

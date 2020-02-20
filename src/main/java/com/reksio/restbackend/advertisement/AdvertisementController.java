@@ -3,8 +3,9 @@ package com.reksio.restbackend.advertisement;
 import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
-import com.reksio.restbackend.exception.user.UserInvalidFieldException;
+import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +25,13 @@ public class AdvertisementController {
     }
 
     @PostMapping("/advertisement")
+    @ResponseStatus(HttpStatus.CREATED)
     public AdvertisementResponse addAdvertisementAsUser(@Valid @RequestBody AdvertisementSaveRequest advertisementSaveRequest, BindingResult result, HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
-        if(result.hasErrors()) {
-            throw new UserInvalidFieldException(
-                    result
-                            .getFieldErrors()
-                            .stream()
-                            .map(f -> f.getField() + ": " + f.getDefaultMessage())
-                            .reduce((a, b) -> a + ", " + b)
-                            .toString());
-        }
+        handleBindingResult(result);
+
         return advertisementService.addAdvertisementForUser(email, advertisementSaveRequest);
     }
 
@@ -58,8 +53,23 @@ public class AdvertisementController {
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
+        handleBindingResult(result);
+
+        return advertisementService.updateAdvertisement(email, advertisementUpdateRequest);
+    }
+
+    @DeleteMapping("/advertisement/{uuid}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAdvertisementAsUser(@PathVariable UUID uuid, HttpServletRequest servletRequest){
+        String token = servletRequest.getHeader("Authorization");
+        String email = JwtUtil.fetchEmail(token);
+
+        advertisementService.deleteAdvertisement(email, uuid);
+    }
+
+    private void handleBindingResult(BindingResult result){
         if(result.hasErrors()) {
-            throw new UserInvalidFieldException(
+            throw new AdvertisementInvalidFieldException(
                     result
                             .getFieldErrors()
                             .stream()
@@ -67,14 +77,5 @@ public class AdvertisementController {
                             .reduce((a, b) -> a + ", " + b)
                             .toString());
         }
-        return advertisementService.updateAdvertisement(email, advertisementUpdateRequest);
-    }
-
-    @DeleteMapping("/advertisement")
-    public void deleteAdvertisementAsUser(@RequestParam UUID uuid, HttpServletRequest servletRequest){
-        String token = servletRequest.getHeader("Authorization");
-        String email = JwtUtil.fetchEmail(token);
-
-        advertisementService.deleteAdvertisement(email, uuid);
     }
 }

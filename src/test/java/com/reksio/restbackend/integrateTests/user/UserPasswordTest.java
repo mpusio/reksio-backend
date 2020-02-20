@@ -2,7 +2,7 @@ package com.reksio.restbackend.integrateTests.user;
 
 import com.google.gson.Gson;
 import com.reksio.restbackend.collection.user.User;
-import com.reksio.restbackend.integrateTests.prepare.LoginTest;
+import com.reksio.restbackend.integrateTests.LoginTest;
 import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

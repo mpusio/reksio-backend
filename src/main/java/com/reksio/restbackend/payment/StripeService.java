@@ -1,5 +1,6 @@
 package com.reksio.restbackend.payment;
 
+import com.reksio.restbackend.exception.payment.ChargeFailedException;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
 import org.slf4j.Logger;
@@ -24,12 +25,13 @@ public class StripeService {
     public Optional<String> createCharge(String email, String paymentToken, int price, int amount) {
         String chargeId = null;
         try {
+            log.info("Try perform charge.");
             Stripe.apiKey = API_SECRET_KEY;
             Map<String, Object> chargeParams = chargeParams(email, paymentToken, price, amount);
             Charge charge = Charge.create(chargeParams);
             chargeId = charge.getId();
         } catch (Exception ex) {
-            log.error("Charge failed. " + ex.getMessage());
+            throw new ChargeFailedException("Charge failed. " + ex.getMessage(), ex);
         }
         return Optional.ofNullable(chargeId);
     }
