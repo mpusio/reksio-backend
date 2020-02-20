@@ -12,4 +12,5 @@ public interface AdvertisementRepository extends MongoRepository<Advertisement, 
     Optional<Advertisement> findByUuid(UUID uuid);
     Long deleteByUuidAndCreatedBy(UUID uuid, String createdBy);
     List<Advertisement> findAllByCreatedBy(String createdBy);
+    Optional<Advertisement> findByUuidAndCreatedBy(UUID uuid, String createdBy);
 }

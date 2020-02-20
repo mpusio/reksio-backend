@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/test/charge-template").permitAll() //example template to charging
                 .antMatchers("/test/public").permitAll()
                 .antMatchers("/api/v1/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/user").permitAll()
