@@ -1,7 +1,6 @@
-package com.reksio.restbackend.integrateTests.prepare;
+package com.reksio.restbackend.integrateTests;
 
 
-import com.reksio.restbackend.integrateTests.prepare.InitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;

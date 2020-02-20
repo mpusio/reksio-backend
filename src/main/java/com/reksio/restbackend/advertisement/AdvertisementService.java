@@ -3,12 +3,13 @@ package com.reksio.restbackend.advertisement;
 import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
-import com.reksio.restbackend.collection.advertisement.*;
+import com.reksio.restbackend.collection.advertisement.Advertisement;
+import com.reksio.restbackend.collection.advertisement.AdvertisementRepository;
+import com.reksio.restbackend.collection.advertisement.Category;
 import com.reksio.restbackend.collection.advertisement.pets.Type;
 import com.reksio.restbackend.exception.advertisement.AdvertisementFailedDeleteExcetion;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
-import com.reksio.restbackend.exception.advertisement.AdvertisementOwnerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,8 +70,8 @@ public class AdvertisementService {
 
     public AdvertisementResponse updateAdvertisement(String email, AdvertisementUpdateRequest request) {
         UUID uuid = request.getUuid();
-        Advertisement advertisement = advertisementRepository.findByUuid(uuid).orElseThrow(() -> new AdvertisementNotExistException("Cannot find advertisement with uuid " + uuid));
-        if(!advertisement.getCreatedBy().equals(email)) throw new AdvertisementOwnerException("User " + email + "is not the owner of advertisement");
+        Advertisement advertisement = advertisementRepository.findByUuidAndCreatedBy(uuid, email)
+                .orElseThrow(() -> new AdvertisementNotExistException("Cannot find advertisement with uuid " + uuid + " and createdBy " + email));
 
         advertisement.setTitle(nullChecker(request.getTitle(), advertisement.getTitle()));
         advertisement.setPrice(nullChecker(request.getPrice(), advertisement.getPrice()));
@@ -93,7 +94,7 @@ public class AdvertisementService {
     public void deleteAdvertisement(String email, UUID uuid){
         Long deleteResult = advertisementRepository.deleteByUuidAndCreatedBy(uuid, email);
         if (deleteResult==0L){
-            throw new AdvertisementFailedDeleteExcetion("Cannot delete advertisement " + uuid);
+            throw new AdvertisementFailedDeleteExcetion("Cannot delete advertisement with uuid: " + uuid);
         }
     }
 

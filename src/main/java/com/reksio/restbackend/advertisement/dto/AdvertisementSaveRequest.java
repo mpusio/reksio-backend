@@ -33,7 +33,7 @@ public class AdvertisementSaveRequest {
     private Integer price;
     @Size(min = 1, message = "Required at least one photo.")
     @NotNull
-    private List<byte[]> images;
+    private List<String> images;
     @Size(max = 2000, message = "Description cannot be longer than 2000 signs.")
     @NotNull
     private String description;

@@ -23,7 +23,7 @@ public class AdvertisementUpdateRequest {
     @Max(10000000)
     private Integer price;
     @Size(min = 1, message = "Required at least one photo.")
-    private List<byte[]> images;
+    private List<String> images;
     private String youtubeUrl;
     @Size(max = 2000, message = "Description cannot be longer than 2000 signs.")
     private String description;

@@ -8,4 +8,8 @@ public class UserHaveNotRoleException extends RuntimeException {
     public UserHaveNotRoleException(String message) {
         super(message);
     }
+
+    public UserHaveNotRoleException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

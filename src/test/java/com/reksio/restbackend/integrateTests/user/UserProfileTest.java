@@ -1,6 +1,6 @@
 package com.reksio.restbackend.integrateTests.user;
 
-import com.reksio.restbackend.integrateTests.prepare.LoginTest;
+import com.reksio.restbackend.integrateTests.LoginTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

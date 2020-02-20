@@ -1,8 +1,7 @@
 package com.reksio.restbackend.exception.advertisement;
 
 public class AdvertisementOwnerException extends RuntimeException {
-    public AdvertisementOwnerException() {
-    }
+    public AdvertisementOwnerException() { super(); }
 
     public AdvertisementOwnerException(String message) {
         super(message);

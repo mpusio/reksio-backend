@@ -4,12 +4,11 @@ import com.google.gson.Gson;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.adress.AddressSaveRequest;
 import com.reksio.restbackend.advertisement.dto.pet.PetSaveRequest;
-import com.reksio.restbackend.collection.advertisement.Address;
 import com.reksio.restbackend.collection.advertisement.Category;
 import com.reksio.restbackend.collection.advertisement.Contact;
 import com.reksio.restbackend.collection.advertisement.pets.Gender;
 import com.reksio.restbackend.collection.advertisement.pets.Type;
-import com.reksio.restbackend.integrateTests.prepare.LoginTest;
+import com.reksio.restbackend.integrateTests.LoginTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class AdvertisementAddTest extends LoginTest {
                         "It turns into a plane " +
                         "and then it turns back again " +
                         "When you tug on it's winky ")
-                .images(List.of(new byte[1]))
+                .images(List.of("path/to/image"))
                 .pet(PetSaveRequest.builder()
                         .gender(Gender.MALE)
                         .name("Cinamon")
@@ -85,7 +84,7 @@ public class AdvertisementAddTest extends LoginTest {
                         .header("Authorization", userToken)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -102,7 +101,7 @@ public class AdvertisementAddTest extends LoginTest {
                         .phone("123456789")
                         .details("Call to me at 8 pm - 9 pm")
                         .build())
-                .images(List.of(new byte[1]))
+                .images(List.of("path/to/image"))
                 .pet(PetSaveRequest.builder()
                         .gender(Gender.MALE)
                         .name("Cinamon")

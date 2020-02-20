@@ -20,7 +20,7 @@ public class AdvertisementResponse {
     private Category category;
     private Pet pet;
     private int price;
-    private List<byte[]> images;
+    private List<String> images;
     private String youtubeUrl;
     private int priority;
     private String description;

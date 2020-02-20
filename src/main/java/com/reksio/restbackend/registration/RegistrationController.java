@@ -2,6 +2,7 @@ package com.reksio.restbackend.registration;
 
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.exception.user.UserInvalidFieldException;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public User register(@Valid @RequestBody RegistrationRequest request, BindingResult result){
 
         if(result.hasErrors()){

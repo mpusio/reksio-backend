@@ -8,7 +8,7 @@ import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
 import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
 import com.reksio.restbackend.exception.token.TokenNotExistException;
-import com.reksio.restbackend.exception.user.UserExistException;
+import com.reksio.restbackend.exception.user.UserNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,8 @@ public class TokenService {
     }
 
     public AdvertisementResponse promoteAdvertisement(String userEmail, Token promoToken, UUID eventUuid) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(UserExistException::new);
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotExistException(userEmail));
 
         Advertisement advertisement = advertisementRepository.findByUuidAndCreatedBy(eventUuid, userEmail)
                 .orElseThrow(() -> new AdvertisementNotExistException("Cannot find event"));
@@ -53,8 +54,10 @@ public class TokenService {
         advertisement.setPriority(promoToken.getPriority());
     }
 
-    public void giveTokensForUser(Token token, int amount, String userEmail){
-        User user = userRepository.findByEmail(userEmail).orElseThrow(UserExistException::new);
+    public void saveTokensForUser(Token token, int amount, String userEmail){
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotExistException(userEmail));
+
         List<Token> tokens = addTokens(token, amount, user.getTokens());
         user.setTokens(tokens);
         userRepository.save(user);

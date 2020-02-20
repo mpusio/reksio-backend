@@ -49,7 +49,7 @@ public class TokenServiceUnitTest {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        tokenService.giveTokensForUser(Token.BLUE, 3, user.getEmail());
+        tokenService.saveTokensForUser(Token.BLUE, 3, user.getEmail());
 
         //then
         assertThat(user.getTokens()).isNotEmpty();
@@ -70,7 +70,7 @@ public class TokenServiceUnitTest {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userWithTokens));
         when(userRepository.save(any(User.class))).thenReturn(userWithTokens);
 
-        tokenService.giveTokensForUser(Token.GREEN, 2, userWithTokens.getEmail());
+        tokenService.saveTokensForUser(Token.GREEN, 2, userWithTokens.getEmail());
 
         //then
         assertThat(userWithTokens.getTokens()).isNotEmpty();

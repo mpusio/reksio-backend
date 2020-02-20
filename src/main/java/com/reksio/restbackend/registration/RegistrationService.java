@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RegistrationService {
@@ -37,10 +36,7 @@ public class RegistrationService {
     }
 
     public void checkEmailAppearsInDatabase(String email){
-        Optional<User> user = userRepository.findByEmail(email);
-
-        if (user.isPresent()){
-            throw new UserExistException("This email exist in database");
-        }
+        userRepository.findByEmail(email)
+                .ifPresent(user -> {throw new UserExistException("This email exist in database");});
     }
 }

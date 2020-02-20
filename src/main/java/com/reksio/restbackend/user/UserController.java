@@ -2,9 +2,9 @@ package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
+import com.reksio.restbackend.user.dto.UserProfileResponse;
 import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
 import com.reksio.restbackend.user.dto.UserUpdateProfileRequest;
-import com.reksio.restbackend.user.dto.UserProfileResponse;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,34 +31,30 @@ public class UserController {
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
-        if(result.hasErrors()){
-            throw new UserInvalidFieldException(
-                    result
-                            .getFieldErrors()
-                            .stream()
-                            .map(f -> f.getField() + ": " + f.getDefaultMessage())
-                            .reduce((a, b) -> a + b)
-                            .toString());
-        }
+        handleBindingResult(result);
 
         return userService.updateUserDetails(email, userUpdateProfileRequest);
     }
 
     @PutMapping("/user/password")
     public UserProfileResponse changePassword(@Valid @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest, BindingResult result,  HttpServletRequest servletRequest){
-        if(result.hasErrors()){
+        String token = servletRequest.getHeader("Authorization");
+        String email = JwtUtil.fetchEmail(token);
+
+        handleBindingResult(result);
+
+        return userService.updatePassword(email, userUpdatePasswordRequest);
+    }
+
+    private void handleBindingResult(BindingResult result){
+        if(result.hasErrors()) {
             throw new UserInvalidFieldException(
                     result
                             .getFieldErrors()
                             .stream()
                             .map(f -> f.getField() + ": " + f.getDefaultMessage())
-                            .reduce((a, b) -> a + b)
+                            .reduce((a, b) -> a + ", " + b)
                             .toString());
         }
-
-        String token = servletRequest.getHeader("Authorization");
-        String email = JwtUtil.fetchEmail(token);
-
-        return userService.updatePassword(email, userUpdatePasswordRequest);
     }
 }

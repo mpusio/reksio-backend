@@ -1,15 +1,14 @@
 package com.reksio.restbackend.collection.user;
 
-import com.reksio.restbackend.collection.advertisement.Advertisement;
-import com.reksio.restbackend.collection.blog.Post;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document
@@ -28,12 +27,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String description;
-    private byte[] image;
-    @DBRef
-    private List<Advertisement> advertisements;
-    @DBRef
-    private List<Post> posts;
+    private String image;
     private List<Token> tokens;
     @LastModifiedDate
-    private Date editedAt;
+    private LocalDateTime editedAt;
 }

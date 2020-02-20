@@ -3,7 +3,7 @@ package com.reksio.restbackend.integrateTests.token;
 import com.google.gson.Gson;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.collection.user.Token;
-import com.reksio.restbackend.integrateTests.prepare.LoginTest;
+import com.reksio.restbackend.integrateTests.LoginTest;
 import com.reksio.restbackend.token.TokenPromoteRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

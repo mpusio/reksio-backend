@@ -1,7 +1,8 @@
 package com.reksio.restbackend.integrateTests.advertisement;
 
 import com.reksio.restbackend.collection.advertisement.Advertisement;
-import com.reksio.restbackend.integrateTests.prepare.LoginTest;
+import com.reksio.restbackend.integrateTests.LoginTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,10 +24,9 @@ public class AdvertisementDeleteTest extends LoginTest {
 
     private String userToken;
 
-    private void prepare(Advertisement request) throws Exception {
-        //given
+    @BeforeEach
+    public void init() throws Exception {
         userToken = shouldLoginAsUserAndReturnTokenInHeader();
-        mongoTemplate.insert(request, "advertisement");
     }
 
     @Test
@@ -41,14 +41,14 @@ public class AdvertisementDeleteTest extends LoginTest {
                 .createdBy("user@gmail.com")
                 .build();
 
-        prepare(request);
+        mongoTemplate.insert(request, "advertisement");
 
         //when, then
         this.mockMvc
-                .perform(delete("/api/v1/advertisement?uuid=" + uuid)
+                .perform(delete("/api/v1/advertisement/" + uuid)
                         .header("Authorization", userToken))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -62,11 +62,11 @@ public class AdvertisementDeleteTest extends LoginTest {
                 .createdBy("user@gmail.com")
                 .build();
 
-        prepare(request);
+        mongoTemplate.insert(request, "advertisement");
 
         //when, then
         this.mockMvc
-                .perform(delete("/api/v1/advertisement?uuid=" + uuid)
+                .perform(delete("/api/v1/advertisement/" + uuid)
                         .header("Authorization", userToken))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
