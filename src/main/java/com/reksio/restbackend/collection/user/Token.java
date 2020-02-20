@@ -6,7 +6,25 @@ public enum Token {
     PURPLE(3, 45, 15),
     RED(4, 60, 20);
 
-    Token(int priority, int extraTimeInDays, int price) {
+    private final int priority;
+    private final int extraTimeInDays;
+    private final int price;
 
+    Token(int priority, int extraTimeInDays, int price) {
+        this.priority = priority;
+        this.extraTimeInDays = extraTimeInDays;
+        this.price = price;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public int getExtraTimeInDays() {
+        return extraTimeInDays;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

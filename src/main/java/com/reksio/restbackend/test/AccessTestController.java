@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/test")
 @Api(value = "Test controller check access.")
-public class AccessController {
+public class AccessTestController {
 
     @GetMapping("/public")
     public String publicAccess(){
