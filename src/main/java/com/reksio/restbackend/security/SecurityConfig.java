@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/charge-template").permitAll() //example template to charging
                 .antMatchers("/test/public").permitAll()
                 .antMatchers("/api/v1/register").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/user").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/user", "/api/v1/advertisement").permitAll()
                 .antMatchers("/test/admin").hasRole("ADMIN")
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
