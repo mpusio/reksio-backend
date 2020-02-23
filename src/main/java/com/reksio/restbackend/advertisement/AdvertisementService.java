@@ -103,4 +103,8 @@ public class AdvertisementService {
                 .map(AdvertisementResponse::convertToAdvertisementResponse)
                 .collect(Collectors.toList());
     }
+
+    public List<Advertisement> getAllAdvertisements() {
+        return advertisementRepository.findAll();
+    }
 }

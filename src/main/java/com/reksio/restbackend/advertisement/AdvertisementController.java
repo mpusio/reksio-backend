@@ -3,6 +3,9 @@ package com.reksio.restbackend.advertisement;
 import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
+import com.reksio.restbackend.advertisement.filter.FilterChain;
+import com.reksio.restbackend.advertisement.filter.FilterFactory;
+import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
 import org.springframework.http.HttpStatus;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -41,7 +47,23 @@ public class AdvertisementController {
     }
 
     @GetMapping("/advertisement")
-    public List<AdvertisementResponse> getAllUserAdvertisement(HttpServletRequest servletRequest){
+    public List<AdvertisementResponse> getFilteredAdvertisements(@RequestParam Map<String,String> allParams){
+
+        List<Advertisement> advertisements = advertisementService.getAllAdvertisements();
+
+        FilterChain filterChain = new FilterChain(advertisements);
+        allParams.forEach((k, v) -> filterChain.addFilter(FilterFactory.getFilter(k, v)));
+
+        return filterChain
+                .runFilters().getAdvertisements().stream()
+                .sorted(Comparator.comparingInt(Advertisement::getPriority)
+                        .thenComparing(Advertisement::getExpirationDate).reversed())
+                .map(AdvertisementResponse::convertToAdvertisementResponse)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/user/advertisement")
+    public List<AdvertisementResponse> getUserAdvertisements(HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 

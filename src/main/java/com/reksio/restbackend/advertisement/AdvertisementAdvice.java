@@ -4,6 +4,7 @@ import com.reksio.restbackend.exception.ExceptionResponse;
 import com.reksio.restbackend.exception.advertisement.AdvertisementFailedDeleteExcetion;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
+import com.reksio.restbackend.exception.filter.FilterNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,6 +52,19 @@ public class AdvertisementAdvice {
                 .message(ex.getMessage())
                 .path(request.getDescription(false).replace("uri=", ""))
                 .solution("Check uuid code is valid.")
+                .build();
+    }
+
+    @ExceptionHandler(FilterNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse userFailedDeleteAdvice(FilterNotFoundException ex, WebRequest request) {
+        return ExceptionResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .solution("Pass corrects param (names like class filed), or remove filter. Also filter may be not implemented yet.")
                 .build();
     }
 }
