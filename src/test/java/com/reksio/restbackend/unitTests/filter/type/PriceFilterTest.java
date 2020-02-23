@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PriceFilterTest {
 
@@ -36,7 +36,7 @@ public class PriceFilterTest {
                 .build();
 
         Advertisement ad5 = Advertisement.builder()
-                .price(40)
+                .price(0)
                 .build();
 
         Advertisement ad6 = Advertisement.builder()
@@ -58,7 +58,7 @@ public class PriceFilterTest {
         assertThat(filter, hasSize(3));
 
         List<Integer> prices = filter.stream().map(Advertisement::getPrice).collect(Collectors.toList());
-        assertThat(prices, everyItem(greaterThan(10)));
+        assertThat(prices, everyItem(greaterThan(100)));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class PriceFilterTest {
         assertThat(filter, hasSize(2));
 
         List<Integer> prices = filter.stream().map(Advertisement::getPrice).collect(Collectors.toList());
-        assertThat(prices, everyItem(greaterThan(10)));
+        assertThat(prices, everyItem(lessThan(100)));
     }
 
     @Test
@@ -89,14 +89,23 @@ public class PriceFilterTest {
     }
 
     @Test
-    public void shouldNotFindPricesWithUnacceptableValue(){
+    public void shouldThrowNumberFormatException(){
         //given
         Filter priceFilter = new PriceFilter("<<100");
+
+        //when, then
+        assertThrows(NumberFormatException.class, () -> priceFilter.filter(exampleData));
+    }
+
+    @Test
+    public void shouldFindFreeAd(){
+        //given
+        Filter priceFilter = new PriceFilter("0");
 
         //when
         List<Advertisement> filter = priceFilter.filter(exampleData);
 
         //then
-        assertThat(filter, hasSize(0));
+        assertThat(filter, hasSize(1));
     }
 }

@@ -6,11 +6,10 @@ import com.reksio.restbackend.collection.advertisement.Advertisement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PriceFilter implements Filter {
+public class PetAgeFilter implements Filter {
+    private final String value; //possible values <100, >100, 100
 
-    private final String value; //possible values: 100, <100, >100,
-
-    public PriceFilter(String value) {
+    public PetAgeFilter(String value){
         this.value = value;
     }
 
@@ -18,14 +17,13 @@ public class PriceFilter implements Filter {
     public List<Advertisement> filter(List<Advertisement> advertisements) {
         return advertisements.stream()
                 .filter(ad -> {
-
                     if (value.charAt(0)=='<'){
-                        int price = Integer.parseInt(value.substring(1));
-                        return ad.getPrice() > price;
+                        int ageInDays = Integer.parseInt(value.substring(1));
+                        return ad.getPet().getAgeInDays() > ageInDays;
                     }
                     else if (value.charAt(0)=='>'){
-                        int price = Integer.parseInt(value.substring(1));
-                        return ad.getPrice() < price;
+                        int ageInDays = Integer.parseInt(value.substring(1));
+                        return ad.getPet().getAgeInDays() < ageInDays;
                     }
                     else return value.equals(String.valueOf(ad.getPrice()));
                 })
