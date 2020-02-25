@@ -43,6 +43,9 @@ public class SwaggerConfig {
                         "For deeper understanding check readme file in repository (if you have access): https://github.com/mpusio/reksio-backend  \n " +
                         "\n" +
                         "In case of problems write to my email.\n " +
+                        "Example account to login as user: \n" +
+                        "login: someuser@gmail.com\n" +
+                        "password: P@ssword123\n" +
                         "Have a fun ;)")
                 .contact(new Contact("Michal Pusio",
                         "https://github.com/mpusio",
@@ -66,8 +69,10 @@ public class SwaggerConfig {
                 .securityReferences(tokenAuth())
                 .forPaths(or(
                         regex("/api/v1/charge"),
-                        regex("/api/v1/post.*"),
-                        regex("/api/v1/user.*")))
+                        regex("/api/v1/user"),
+                        regex("/api/v1/user/advertisement.*"),
+                        regex("/api/v1/user/password")
+                ))
                 .build();
     }
 
