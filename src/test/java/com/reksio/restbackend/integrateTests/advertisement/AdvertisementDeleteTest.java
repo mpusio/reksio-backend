@@ -45,7 +45,7 @@ public class AdvertisementDeleteTest extends LoginTest {
 
         //when, then
         this.mockMvc
-                .perform(delete("/api/v1/advertisement/" + uuid)
+                .perform(delete("/api/v1//user/advertisement/" + uuid)
                         .header("Authorization", userToken))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -66,7 +66,7 @@ public class AdvertisementDeleteTest extends LoginTest {
 
         //when, then
         this.mockMvc
-                .perform(delete("/api/v1/advertisement/" + uuid)
+                .perform(delete("/api/v1//user/advertisement/" + uuid)
                         .header("Authorization", userToken))
                 .andDo(print())
                 .andExpect(status().isBadRequest());

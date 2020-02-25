@@ -79,7 +79,7 @@ public class AdvertisementAddTest extends LoginTest {
 
         //when, then
         this.mockMvc
-                .perform(post("/api/v1/advertisement")
+                .perform(post("/api/v1/user/advertisement")
                         .content(json)
                         .header("Authorization", userToken)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -117,7 +117,7 @@ public class AdvertisementAddTest extends LoginTest {
 
         //when, then
         this.mockMvc
-                .perform(post("/api/v1/advertisement")
+                .perform(post("/api/v1/user/advertisement")
                         .content(json)
                         .header("Authorization", userToken)
                         .contentType(MediaType.APPLICATION_JSON))

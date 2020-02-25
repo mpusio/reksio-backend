@@ -4,6 +4,7 @@ import com.reksio.restbackend.collection.user.Token;
 import com.reksio.restbackend.exception.payment.ChargeFailedException;
 import com.reksio.restbackend.security.JwtUtil;
 import com.reksio.restbackend.token.TokenService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class PaymentController {
         this.tokenService = tokenService;
     }
 
+    @ApiOperation("Charge for token.")
     @PostMapping("/charge")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public PaymentResponse createCharge(@RequestBody PaymentRequest paymentRequest, HttpServletRequest servletRequest) {
@@ -44,6 +46,7 @@ public class PaymentController {
         return new PaymentResponse(true, "Your charge was success!");
     }
 
+    @ApiOperation("Get charge public key.")
     @GetMapping("/charge/public-key")
     public String getPublicStripeKey(){
         return API_PUBLIC_KEY;

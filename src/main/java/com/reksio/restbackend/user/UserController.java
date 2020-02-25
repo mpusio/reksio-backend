@@ -1,10 +1,12 @@
 package com.reksio.restbackend.user;
 
+import com.reksio.restbackend.advertisement.AdvertisementService;
 import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
 import com.reksio.restbackend.user.dto.UserProfileResponse;
 import com.reksio.restbackend.user.dto.UserUpdatePasswordRequest;
 import com.reksio.restbackend.user.dto.UserUpdateProfileRequest;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +23,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
-    public UserProfileResponse selectProfile(@RequestParam String email){
+    @ApiOperation("Select user profile")
+    @GetMapping("/user/{email}")
+    public UserProfileResponse selectProfile(@PathVariable String email){
         return userService.fetchUserByEmail(email);
     }
 
+    @ApiOperation("Update user profile")
     @PutMapping("/user")
-    public UserProfileResponse updateProfile(@Valid @RequestBody UserUpdateProfileRequest userUpdateProfileRequest, BindingResult result,  HttpServletRequest servletRequest){
+    public UserProfileResponse updateProfileAsUser(@Valid @RequestBody UserUpdateProfileRequest userUpdateProfileRequest, BindingResult result,  HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
@@ -36,8 +40,9 @@ public class UserController {
         return userService.updateUserDetails(email, userUpdateProfileRequest);
     }
 
+    @ApiOperation("Change password as user.")
     @PutMapping("/user/password")
-    public UserProfileResponse changePassword(@Valid @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest, BindingResult result,  HttpServletRequest servletRequest){
+    public UserProfileResponse changePasswordAsUser(@Valid @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest, BindingResult result,  HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
