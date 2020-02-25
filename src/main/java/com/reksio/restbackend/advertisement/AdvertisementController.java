@@ -8,6 +8,8 @@ import com.reksio.restbackend.advertisement.filter.FilterFactory;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,24 +32,24 @@ public class AdvertisementController {
         this.advertisementService = advertisementService;
     }
 
-    @PostMapping("/advertisement")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AdvertisementResponse addAdvertisementAsUser(@Valid @RequestBody AdvertisementSaveRequest advertisementSaveRequest, BindingResult result, HttpServletRequest servletRequest){
-        String token = servletRequest.getHeader("Authorization");
-        String email = JwtUtil.fetchEmail(token);
-
-        handleBindingResult(result);
-
-        return advertisementService.addAdvertisementForUser(email, advertisementSaveRequest);
-    }
-
+    @ApiOperation("Select concrete advertisement.")
     @GetMapping("/advertisement/{uuid}")
     public AdvertisementResponse getAdvertisement(@PathVariable UUID uuid){
         return advertisementService.getAdvertisement(uuid);
     }
 
+    @ApiOperation(value = "Filter advertisements with parameters.")
     @GetMapping("/advertisement")
-    public List<AdvertisementResponse> getFilteredAdvertisements(@RequestParam Map<String,String> allParams){
+    public List<AdvertisementResponse> getFilteredAdvertisements(
+            @ApiParam("Example correct endpoint: /api/v1/advertiesment?price=100. \n" +
+                    "You may not pass params or pass params like: \n " +
+                    "price=<100, price=>100, price=100 \n" +
+                    "age=<100, age=>100, age=100 \n" +
+                    "gender: gender=male (check gender in pet model)\n" +
+                    "type: type=labrador (check category in pet model)\n" +
+                    "category: category=dogs (check category in advertisement model)\n"
+                    )
+            @RequestParam(required = false) Map<String,String> allParams){
 
         List<Advertisement> advertisements = advertisementService.getAllAdvertisements();
 
@@ -62,15 +64,20 @@ public class AdvertisementController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/user/advertisement")
-    public List<AdvertisementResponse> getUserAdvertisements(HttpServletRequest servletRequest){
+    @ApiOperation(value = "Add advertisement as user.", code = 201)
+    @PostMapping("/user/advertisement")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AdvertisementResponse addAdvertisementAsUser(@Valid @RequestBody AdvertisementSaveRequest advertisementSaveRequest, BindingResult result, HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
-        return advertisementService.getAllAdvertisementsBelongToUser(email);
+        handleBindingResult(result);
+
+        return advertisementService.addAdvertisementForUser(email, advertisementSaveRequest);
     }
 
-    @PutMapping("/advertisement")
+    @ApiOperation("Update advertisement as user.")
+    @PutMapping("/user/advertisement")
     public AdvertisementResponse updateAdvertisementAsUser(@Valid @RequestBody AdvertisementUpdateRequest advertisementUpdateRequest, BindingResult result, HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
@@ -80,13 +87,23 @@ public class AdvertisementController {
         return advertisementService.updateAdvertisement(email, advertisementUpdateRequest);
     }
 
-    @DeleteMapping("/advertisement/{uuid}")
+    @ApiOperation(value = "Delete advertisement as user.", code = 204)
+    @DeleteMapping("/user/advertisement/{uuid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAdvertisementAsUser(@PathVariable UUID uuid, HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
 
         advertisementService.deleteAdvertisement(email, uuid);
+    }
+
+    @ApiOperation("Get advertisements belong to user (parse token to fetch email) as user.")
+    @GetMapping("/user/advertisement")
+    public List<AdvertisementResponse> getUserAdvertisementsAsUser(HttpServletRequest servletRequest){
+        String token = servletRequest.getHeader("Authorization");
+        String email = JwtUtil.fetchEmail(token);
+
+        return advertisementService.getAllAdvertisementsBelongToUser(email);
     }
 
     private void handleBindingResult(BindingResult result){

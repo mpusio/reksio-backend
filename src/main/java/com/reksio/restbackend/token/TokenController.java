@@ -4,6 +4,7 @@ import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.collection.advertisement.AdvertisementRepository;
 import com.reksio.restbackend.collection.user.UserRepository;
 import com.reksio.restbackend.security.JwtUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,8 @@ public class TokenController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("/advertisement/promote")
+    @ApiOperation("Promote advertisement with promotion token as user.")
+    @PostMapping("/user/advertisement/promote")
     public AdvertisementResponse promoteAdvertisement(@RequestBody TokenPromoteRequest promoteRequest, HttpServletRequest servletRequest){
         String token = servletRequest.getHeader("Authorization");
         String email = JwtUtil.fetchEmail(token);
