@@ -33,7 +33,7 @@ public class UserProfileTest extends LoginTest {
     @Test
     public void shouldDisplayProfile() throws Exception {
         this.mockMvc
-                .perform(get("/api/v1/user?email=user@gmail.com"))
+                .perform(get("/api/v1/user/user@gmail.com"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("user@gmail.com")));
