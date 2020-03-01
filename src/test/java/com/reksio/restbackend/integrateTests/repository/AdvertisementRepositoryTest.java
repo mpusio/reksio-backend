@@ -56,6 +56,6 @@ public class AdvertisementRepositoryTest {
         List<Advertisement> all = mongoTemplate.findAll(Advertisement.class);
 
         //then
-        assertThat(all).hasSize(2);
+        assertThat(all).hasSize(5);
     }
 }

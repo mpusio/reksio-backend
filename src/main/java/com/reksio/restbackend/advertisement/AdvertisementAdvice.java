@@ -3,7 +3,7 @@ package com.reksio.restbackend.advertisement;
 import com.reksio.restbackend.exception.ExceptionResponse;
 import com.reksio.restbackend.exception.advertisement.AdvertisementFailedDeleteExcetion;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
-import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
+import com.reksio.restbackend.exception.advertisement.AdvertisementNotFoundException;
 import com.reksio.restbackend.exception.filter.FilterNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,7 +31,7 @@ public class AdvertisementAdvice {
 
     @ExceptionHandler(AdvertisementFailedDeleteExcetion.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse userFailedDeleteAdvice(AdvertisementFailedDeleteExcetion ex, WebRequest request) {
+    public ExceptionResponse advertisementFailedDeleteAdvice(AdvertisementFailedDeleteExcetion ex, WebRequest request) {
         return ExceptionResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -42,9 +42,9 @@ public class AdvertisementAdvice {
                 .build();
     }
 
-    @ExceptionHandler(AdvertisementNotExistException.class)
+    @ExceptionHandler(AdvertisementNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse userFailedUpdateAdvice(AdvertisementNotExistException ex, WebRequest request) {
+    public ExceptionResponse advertisementNotFoundAdvice(AdvertisementNotFoundException ex, WebRequest request) {
         return ExceptionResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -57,7 +57,7 @@ public class AdvertisementAdvice {
 
     @ExceptionHandler(FilterNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse userFailedDeleteAdvice(FilterNotFoundException ex, WebRequest request) {
+    public ExceptionResponse filterNotFoundAdvice(FilterNotFoundException ex, WebRequest request) {
         return ExceptionResponse.builder()
                 .timestamp(new Date())
                 .status(HttpStatus.BAD_REQUEST.value())

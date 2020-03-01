@@ -9,7 +9,7 @@ import com.reksio.restbackend.collection.advertisement.Category;
 import com.reksio.restbackend.collection.advertisement.pets.Type;
 import com.reksio.restbackend.exception.advertisement.AdvertisementFailedDeleteExcetion;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
-import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
+import com.reksio.restbackend.exception.advertisement.AdvertisementNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,14 +64,15 @@ public class AdvertisementService {
     }
 
     public AdvertisementResponse getAdvertisement(UUID uuid) {
-        Advertisement advertisement = advertisementRepository.findByUuid(uuid).orElseThrow(() -> new AdvertisementNotExistException("Cannot find advertisement with uuid " + uuid));
+        Advertisement advertisement = advertisementRepository.findByUuid(uuid)
+                .orElseThrow(() -> new AdvertisementNotFoundException("Cannot find advertisement with uuid " + uuid));
         return convertToAdvertisementResponse(advertisement);
     }
 
     public AdvertisementResponse updateAdvertisement(String email, AdvertisementUpdateRequest request) {
         UUID uuid = request.getUuid();
         Advertisement advertisement = advertisementRepository.findByUuidAndCreatedBy(uuid, email)
-                .orElseThrow(() -> new AdvertisementNotExistException("Cannot find advertisement with uuid " + uuid + " and createdBy " + email));
+                .orElseThrow(() -> new AdvertisementNotFoundException("Cannot find advertisement with uuid " + uuid + " and createdBy " + email));
 
         advertisement.setTitle(nullChecker(request.getTitle(), advertisement.getTitle()));
         advertisement.setPrice(nullChecker(request.getPrice(), advertisement.getPrice()));

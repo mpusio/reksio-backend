@@ -6,7 +6,7 @@ import com.reksio.restbackend.collection.advertisement.AdvertisementRepository;
 import com.reksio.restbackend.collection.user.Token;
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
-import com.reksio.restbackend.exception.advertisement.AdvertisementNotExistException;
+import com.reksio.restbackend.exception.advertisement.AdvertisementNotFoundException;
 import com.reksio.restbackend.exception.token.TokenNotExistException;
 import com.reksio.restbackend.exception.user.UserNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TokenService {
                 .orElseThrow(() -> new UserNotExistException(userEmail));
 
         Advertisement advertisement = advertisementRepository.findByUuidAndCreatedBy(eventUuid, userEmail)
-                .orElseThrow(() -> new AdvertisementNotExistException("Cannot find event"));
+                .orElseThrow(() -> new AdvertisementNotFoundException("Cannot find event"));
 
         checkUserHavePromoTokens(user, promoToken);
         upgradeAdvertisement(advertisement, promoToken);

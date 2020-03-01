@@ -71,7 +71,8 @@ public class SwaggerConfig {
                         regex("/api/v1/charge"),
                         regex("/api/v1/user"),
                         regex("/api/v1/user/advertisement.*"),
-                        regex("/api/v1/user/password")
+                        regex("/api/v1/user/password"),
+                        regex("/api/v1/user/blog.*")
                 ))
                 .build();
     }
