@@ -1,0 +1,11 @@
+stripe:
+  keys:
+    public: pk_test_QEAzhKXVN6ScM2W2mH44g9Ip00FymwtHyN
+    secret: sk_test_RAMJbRSQ0OcKa8Qrrg837vHp00RA2X3zf0
+
+amazonProperties:
+  bucketName: backend-pet-images
+
+#  accessKey: yy
+#  secretKey: xx
+#  endpointUrl: https://s3.eu-west-1.amazonaws.com
