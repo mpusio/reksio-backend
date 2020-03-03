@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/test/public", "/test/charge-template").permitAll()
                 .antMatchers("/test/admin").hasRole("ADMIN")
-                .antMatchers("/api/v1/register", "/api/v1/login", "/actuator/**").permitAll()
+                .antMatchers("/api/v1/register", "/api/v1/login", "/actuator/**", "/api/v1/email/**").permitAll()
                 .antMatchers(HttpMethod.GET,  "/api/v1/blog**", "/api/v1/advertisement**", "/api/v1/blog/post**", "/api/v1/user/{email}").permitAll()
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()

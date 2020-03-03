@@ -1,7 +1,9 @@
 package com.reksio.restbackend.user;
 
+import com.reksio.restbackend.collection.user.ActivationToken;
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
+import com.reksio.restbackend.exception.user.TokenExpiredException;
 import com.reksio.restbackend.exception.user.UserNotExistException;
 import com.reksio.restbackend.exception.user.UserNotEqualsPasswordException;
 import com.reksio.restbackend.user.dto.UserProfileResponse;
@@ -10,6 +12,9 @@ import com.reksio.restbackend.user.dto.UserUpdateProfileRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -62,5 +67,25 @@ public class UserService {
         userRepository.save(user);
 
         return UserProfileResponse.convertFromUser(user);
+    }
+
+    public void setActivationToken(String email, UUID activationToken) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotExistException("Cannot find user by email " + email));
+
+        user.setActivationToken(new ActivationToken(activationToken, LocalDateTime.now().plusDays(1)));
+        userRepository.save(user);
+    }
+
+    public void activateAccount(UUID uuid) {
+        User user = userRepository.findByActivationToken_Uuid(uuid)
+                .orElseThrow(() -> new UserNotExistException("Cannot find user by activation token " + uuid));
+
+        if (user.getActivationToken().getExpirationTime().isBefore(LocalDateTime.now())){
+            throw new TokenExpiredException("Activation token has been expired.");
+        }
+
+        user.setActive(true);
+        userRepository.save(user);
     }
 }

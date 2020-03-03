@@ -4,6 +4,18 @@ spring:
       database: pets
       host: localhost
       port: 27017
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: eventbackend2020@gmail.com
+    password: K@sztan12
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 stripe:
   keys:
@@ -15,3 +27,5 @@ amazonProperties:
   accessKey: AKIAZSNGYNFUDOI6D44B
   secretKey: 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
   bucketName: backend-pet-images
+
+activation-link: http://localhost:8080/api/v1/email/activate-account

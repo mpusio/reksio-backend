@@ -5,7 +5,15 @@ stripe:
 
 amazonProperties:
   bucketName: backend-pet-images
+  accessKey: AKIAZSNGYNFUDOI6D44B
+  secretKey: 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
+  endpointUrl: https://s3.eu-west-1.amazonaws.com
 
-#  accessKey: yy
-#  secretKey: xx
-#  endpointUrl: https://s3.eu-west-1.amazonaws.com
+spring:
+  mail:
+    host: localhost
+    username: username
+    password: secret
+    port: 3025
+
+activation-link: https://www.google.com

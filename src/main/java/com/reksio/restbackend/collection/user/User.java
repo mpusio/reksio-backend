@@ -29,6 +29,8 @@ public class User {
     private String description;
     private String image;
     private List<Token> tokens;
+    private ActivationToken activationToken;
+    private ResetPasswordToken resetPasswordToken;
     @LastModifiedDate
     private LocalDateTime editedAt;
 }
