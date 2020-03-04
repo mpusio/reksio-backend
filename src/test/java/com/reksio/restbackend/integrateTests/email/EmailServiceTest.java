@@ -46,7 +46,7 @@ public class EmailServiceTest {
         String to = "aloha@gmail.com";
 
         // When
-        emailService.sendActivationLink(to, "link");
+        emailService.sendActivationEmail(to, "link");
 
         // Then
         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
@@ -67,7 +67,7 @@ public class EmailServiceTest {
         String to = "aloha2@gmail.com";
 
         // When
-        emailService.sendResetPasswordLink(to, "link");
+        emailService.sendResetPasswordEmail(to, "link");
 
         // Then
         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();

@@ -25,15 +25,15 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendActivationLink(String emailTo, String link) throws IOException {
+    public void sendActivationEmail(String emailTo, String activationLink) throws IOException {
         String content = loadContentTemplate("templates/activation.html");
-        String preparedContent = content.replace("Here place activation link", link);
+        String preparedContent = content.replace("Here place activation link", activationLink);
         sendMail(emailTo, "Activation link", preparedContent, true);
     }
 
-    public void sendResetPasswordLink(String emailTo, String link) throws IOException {
+    public void sendResetPasswordEmail(String emailTo, String resetPasswordLink) throws IOException {
         String content = loadContentTemplate("templates/reset_password.html");
-        String preparedContent = content.replace("Here place activation link", link);
+        String preparedContent = content.replace("Here place activation link", resetPasswordLink);
         sendMail(emailTo, "Reset password", preparedContent, true);
     }
 
@@ -42,7 +42,7 @@ public class EmailService {
         return new String(Files.readAllBytes(pathToTemplate));
     }
 
-    private void sendMail(String to, String subject, String text, boolean isHtmlContent){
+    public void sendMail(String to, String subject, String text, boolean isHtmlContent){
         try{
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -54,6 +54,4 @@ public class EmailService {
             log.error("Sending mail failed.", e);
         }
     }
-
-
 }
