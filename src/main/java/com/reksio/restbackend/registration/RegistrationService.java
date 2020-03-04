@@ -28,7 +28,7 @@ public class RegistrationService {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(encoder.encode(request.getPassword()))
-                .isActive(true) //TODO email verification
+                .isActive(false)
                 .roles(List.of(Role.USER))
                 .build();
 

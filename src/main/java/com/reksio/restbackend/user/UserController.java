@@ -1,6 +1,5 @@
 package com.reksio.restbackend.user;
 
-import com.reksio.restbackend.advertisement.AdvertisementService;
 import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
 import com.reksio.restbackend.user.dto.UserProfileResponse;
@@ -48,7 +47,7 @@ public class UserController {
 
         handleBindingResult(result);
 
-        return userService.updatePassword(email, userUpdatePasswordRequest);
+        return userService.changePassword(email, userUpdatePasswordRequest);
     }
 
     private void handleBindingResult(BindingResult result){
