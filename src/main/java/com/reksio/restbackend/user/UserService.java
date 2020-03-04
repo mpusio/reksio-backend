@@ -1,6 +1,7 @@
 package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.collection.user.ActivationToken;
+import com.reksio.restbackend.collection.user.ResetPasswordToken;
 import com.reksio.restbackend.collection.user.User;
 import com.reksio.restbackend.collection.user.UserRepository;
 import com.reksio.restbackend.exception.user.TokenExpiredException;
@@ -54,7 +55,7 @@ public class UserService {
         return fieldToInsert;
     }
 
-    public UserProfileResponse updatePassword(String email, UserUpdatePasswordRequest updateRequest) {
+    public UserProfileResponse changePassword(String email, UserUpdatePasswordRequest updateRequest) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotExistException(email));
 
         String newPasswordEncoded = encoder.encode(updateRequest.getNewPassword());
@@ -77,15 +78,35 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void activateAccount(UUID uuid) {
-        User user = userRepository.findByActivationToken_Uuid(uuid)
-                .orElseThrow(() -> new UserNotExistException("Cannot find user by activation token " + uuid));
+    public void activateAccount(UUID token) {
+        User user = userRepository.findByActivationToken_Uuid(token)
+                .orElseThrow(() -> new UserNotExistException("Cannot find user by activation token " + token));
 
         if (user.getActivationToken().getExpirationTime().isBefore(LocalDateTime.now())){
             throw new TokenExpiredException("Activation token has been expired.");
         }
 
         user.setActive(true);
+        userRepository.save(user);
+    }
+
+    public void setResetPasswordToken(String email, UUID resetPasswordToken) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotExistException("Cannot find user by email " + email));
+
+        user.setResetPasswordToken(new ResetPasswordToken(resetPasswordToken, LocalDateTime.now().plusMinutes(15)));
+        userRepository.save(user);
+    }
+
+    public void resetPassword(UUID token, String newPassword){
+        User user = userRepository.findByResetPasswordToken_Uuid(token)
+                .orElseThrow(() -> new UserNotExistException("Cannot find user by reset password token " + token));
+
+        if (user.getResetPasswordToken().getExpirationTime().isBefore(LocalDateTime.now())){
+            throw new TokenExpiredException("Reset password token has been expired.");
+        }
+
+        user.setPassword(encoder.encode(newPassword));
         userRepository.save(user);
     }
 }

@@ -17,3 +17,4 @@ spring:
     port: 3025
 
 activation-link: https://www.google.com
+reset-password-link: https://www.google.com

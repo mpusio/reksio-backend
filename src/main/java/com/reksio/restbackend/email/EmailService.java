@@ -15,13 +15,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class MailService {
+public class EmailService {
 
     private final JavaMailSender javaMailSender;
-    private final Logger log = LoggerFactory.getLogger(MailService.class);
+    private final Logger log = LoggerFactory.getLogger(EmailService.class);
 
     @Autowired
-    public MailService(JavaMailSender javaMailSender) {
+    public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
@@ -29,6 +29,12 @@ public class MailService {
         String content = loadContentTemplate("templates/activation.html");
         String preparedContent = content.replace("Here place activation link", link);
         sendMail(emailTo, "Activation link", preparedContent, true);
+    }
+
+    public void sendResetPasswordLink(String emailTo, String link) throws IOException {
+        String content = loadContentTemplate("templates/reset_password.html");
+        String preparedContent = content.replace("Here place activation link", link);
+        sendMail(emailTo, "Reset password", preparedContent, true);
     }
 
     private String loadContentTemplate(String path) throws IOException {
@@ -48,4 +54,6 @@ public class MailService {
             log.error("Sending mail failed.", e);
         }
     }
+
+
 }

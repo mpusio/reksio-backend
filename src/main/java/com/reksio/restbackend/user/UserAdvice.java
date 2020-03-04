@@ -1,6 +1,7 @@
 package com.reksio.restbackend.user;
 
 import com.reksio.restbackend.exception.ExceptionResponse;
+import com.reksio.restbackend.exception.user.TokenExpiredException;
 import com.reksio.restbackend.exception.user.UserInvalidFieldException;
 import com.reksio.restbackend.exception.user.UserNotEqualsPasswordException;
 import com.reksio.restbackend.exception.user.UserNotExistException;
@@ -51,6 +52,19 @@ public class UserAdvice {
                 .message(ex.getMessage())
                 .path(request.getDescription(false).replace("uri=", ""))
                 .solution("Check is email correct.")
+                .build();
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    @ResponseStatus(HttpStatus.GONE)
+    public ExceptionResponse cannotFindAdvice(TokenExpiredException ex, WebRequest request) {
+        return ExceptionResponse.builder()
+                .timestamp(new Date())
+                .status(HttpStatus.GONE.value())
+                .error(HttpStatus.GONE.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getDescription(false).replace("uri=", ""))
+                .solution("Renew token.")
                 .build();
     }
 }

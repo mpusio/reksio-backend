@@ -28,4 +28,5 @@ amazonProperties:
   secretKey: PsLR9Cj4/CWQJ9XAKcbDDwdE6rTZQLMDv8rXynXz
   bucketName: backend-pet-images
 
-activation-link: http://localhost:8080/api/v1/email/activate-account
+activation-link: http://www.frontend-link-to-activate-account.com
+reset-password-link: http://www.frontend-link-to-reset-password.com
