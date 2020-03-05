@@ -48,6 +48,7 @@ public class AdvertisementController {
                     "gender: gender=male (check gender in pet model)\n" +
                     "type: type=labrador (check category in pet model)\n" +
                     "category: category=dogs (check category in advertisement model)\n" +
+                    "city: city=Bydgoszcz\n" +
                     "location: not implemented yet."
                     )
             @RequestParam(required = false) Map<String,String> allParams){
