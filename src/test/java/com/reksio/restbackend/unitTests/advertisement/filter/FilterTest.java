@@ -1,4 +1,4 @@
-package com.reksio.restbackend.unitTests.filter;
+package com.reksio.restbackend.unitTests.advertisement.filter;
 
 import com.reksio.restbackend.advertisement.AdvertisementController;
 import com.reksio.restbackend.advertisement.AdvertisementService;
@@ -9,7 +9,6 @@ import com.reksio.restbackend.collection.advertisement.pets.Gender;
 import com.reksio.restbackend.collection.advertisement.pets.Pet;
 import com.reksio.restbackend.collection.advertisement.pets.Type;
 import com.reksio.restbackend.exception.filter.FilterNotFoundException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -107,7 +106,7 @@ public class FilterTest {
         when(advertisementService.getAllAdvertisements()).thenReturn(exampleData);
 
         //then
-        List<AdvertisementResponse> filteredAds = advertisementController.getFilteredAdvertisements(params);
+        List<AdvertisementResponse> filteredAds = advertisementController.getFilteredAdvertisements(params, null);
 
         assertThat(filteredAds).hasSize(3);
         assertThat(filteredAds.get(0))
@@ -128,7 +127,7 @@ public class FilterTest {
         when(advertisementService.getAllAdvertisements()).thenReturn(exampleData);
 
         //then
-        List<AdvertisementResponse> filteredAds = advertisementController.getFilteredAdvertisements(params);
+        List<AdvertisementResponse> filteredAds = advertisementController.getFilteredAdvertisements(params, null);
 
         assertThat(filteredAds).hasSize(0);
     }
@@ -144,6 +143,6 @@ public class FilterTest {
         when(advertisementService.getAllAdvertisements()).thenReturn(exampleData);
 
         //then
-        assertThrows(FilterNotFoundException.class, () -> advertisementController.getFilteredAdvertisements(params));
+        assertThrows(FilterNotFoundException.class, () -> advertisementController.getFilteredAdvertisements(params, null));
     }
 }

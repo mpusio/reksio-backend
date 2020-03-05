@@ -1,10 +1,12 @@
 package com.reksio.restbackend.advertisement;
 
+import com.google.maps.model.LatLng;
 import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
 import com.reksio.restbackend.advertisement.filter.FilterChain;
 import com.reksio.restbackend.advertisement.filter.FilterFactory;
+import com.reksio.restbackend.advertisement.location.DistanceComparator;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.exception.advertisement.AdvertisementInvalidFieldException;
 import com.reksio.restbackend.security.JwtUtil;
@@ -49,9 +51,11 @@ public class AdvertisementController {
                     "type: type=labrador (check category in pet model)\n" +
                     "category: category=dogs (check category in advertisement model)\n" +
                     "city: city=Bydgoszcz\n" +
-                    "location: not implemented yet."
+                    "waypoint provide sorting by nearest place\n" +
+                    "waypoint is not required, like params."
                     )
-            @RequestParam(required = false) Map<String,String> allParams){
+            @RequestParam(required = false) Map<String,String> allParams,
+            @RequestBody(required = false) LatLng waypoint){
 
         List<Advertisement> advertisements = advertisementService.getAllAdvertisements();
 
@@ -61,7 +65,9 @@ public class AdvertisementController {
         return filterChain
                 .runFilters().getAdvertisements().stream()
                 .sorted(Comparator.comparingInt(Advertisement::getPriority)
-                        .thenComparing(Advertisement::getExpirationDate).reversed())
+                        .thenComparing(new DistanceComparator(waypoint).reversed())
+                        .thenComparing(Advertisement::getExpirationDate).reversed()
+                )
                 .map(AdvertisementResponse::convertToAdvertisementResponse)
                 .collect(Collectors.toList());
     }

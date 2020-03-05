@@ -1,11 +1,9 @@
-package com.reksio.restbackend.unitTests.filter.type;
+package com.reksio.restbackend.unitTests.advertisement.filter.type;
 
 import com.reksio.restbackend.advertisement.filter.Filter;
-import com.reksio.restbackend.advertisement.filter.type.CategoryFilter;
 import com.reksio.restbackend.advertisement.filter.type.CityFilter;
 import com.reksio.restbackend.collection.advertisement.Address;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
-import com.reksio.restbackend.collection.advertisement.Category;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
