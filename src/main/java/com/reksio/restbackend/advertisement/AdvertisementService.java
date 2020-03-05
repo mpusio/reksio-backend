@@ -1,8 +1,12 @@
 package com.reksio.restbackend.advertisement;
 
+import com.google.maps.model.LatLng;
 import com.reksio.restbackend.advertisement.dto.AdvertisementResponse;
 import com.reksio.restbackend.advertisement.dto.AdvertisementSaveRequest;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
+import com.reksio.restbackend.advertisement.dto.adress.AddressUpdateRequest;
+import com.reksio.restbackend.advertisement.location.GoogleMapsService;
+import com.reksio.restbackend.collection.advertisement.Address;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.collection.advertisement.AdvertisementRepository;
 import com.reksio.restbackend.collection.advertisement.Category;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,14 +29,19 @@ import static com.reksio.restbackend.advertisement.dto.AdvertisementResponse.con
 public class AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
+    private final GoogleMapsService googleMapsService;
 
     @Autowired
-    public AdvertisementService(AdvertisementRepository advertisementRepository) {
+    public AdvertisementService(AdvertisementRepository advertisementRepository, GoogleMapsService googleMapsService) {
         this.advertisementRepository = advertisementRepository;
+        this.googleMapsService = googleMapsService;
     }
 
     public AdvertisementResponse addAdvertisementForUser(String email, AdvertisementSaveRequest request) {
         checkTypeBelongToCategory(request.getPet().getType(), request.getCategory());
+
+        Optional<LatLng> latLng = googleMapsService
+                .recognizeLatLngParams(request.getAddress().getCity(), request.getAddress().getPostCode());
 
         Advertisement advertisement = Advertisement.builder()
                 .uuid(UUID.randomUUID())
@@ -44,13 +54,17 @@ public class AdvertisementService {
                 .description(request.getDescription())
                 .priority(0)
                 .expirationDate(thirtyDaysExpirationTime())
-                .address(request.getAddress())
+                .address(Address.builder()
+                        .city(request.getAddress().getCity())
+                        .postCode(request.getAddress().getPostCode())
+                        .lat(latLng.get().lat)
+                        .lng(latLng.get().lng)
+                        .build())
                 .contact(request.getContact())
                 .createdBy(email)
                 .build();
 
-        Advertisement insert = advertisementRepository.insert(advertisement);
-        return convertToAdvertisementResponse(insert);
+        return convertToAdvertisementResponse(advertisementRepository.insert(advertisement));
     }
 
     private void checkTypeBelongToCategory(Type type, Category category){
@@ -79,10 +93,31 @@ public class AdvertisementService {
         advertisement.setImages(nullChecker(request.getImages(), advertisement.getImages()));
         advertisement.setYoutubeUrl(nullChecker(request.getYoutubeUrl(), advertisement.getYoutubeUrl()));
         advertisement.setDescription(nullChecker(request.getDescription(), advertisement.getDescription()));
-        advertisement.setAddress(nullChecker(request.getAddress(), advertisement.getAddress()));
+        advertisement.setAddress(addressChecker(request.getAddress(), advertisement.getAddress()));
         advertisement.setContact(nullChecker(request.getContact(), advertisement.getContact()));
 
         return convertToAdvertisementResponse(advertisementRepository.save(advertisement));
+    }
+
+    private Address addressChecker(AddressUpdateRequest addressToInsert, Address actualAddress){
+        Address address = actualAddress;
+
+        if (addressToInsert != null){
+            address = Address.builder()
+                    .city(addressToInsert.getCity())
+                    .postCode(addressToInsert.getPostCode())
+                    .build();
+        }
+
+        Optional<LatLng> latLng = googleMapsService
+                .recognizeLatLngParams(address.getCity(), address.getPostCode());
+
+        if (latLng.isPresent()){
+            address.setLat(latLng.get().lat);
+            address.setLng(latLng.get().lng);
+        }
+
+        return address;
     }
 
     private <T> T nullChecker(T fieldToInsert, T actualField){

@@ -20,27 +20,39 @@ public class CityFilterTest {
     @BeforeAll
     public static void initDataToFilter(){
         Advertisement ad1 = Advertisement.builder()
-                .address(new Address("Warszawa", ""))
+                .address(Address.builder()
+                        .city("Warszawa")
+                        .build())
                 .build();
 
         Advertisement ad2 = Advertisement.builder()
-                .address(new Address("Warszawa", ""))
+                .address(Address.builder()
+                        .city("Warszawa")
+                        .build())
                 .build();
 
         Advertisement ad3 = Advertisement.builder()
-                .address(new Address("Gdańsk", ""))
+                .address(Address.builder()
+                        .city("Gdańsk")
+                        .build())
                 .build();
 
         Advertisement ad4 = Advertisement.builder()
-                .address(new Address("Gdańsk", ""))
+                .address(Address.builder()
+                        .city("Gdańsk")
+                        .build())
                 .build();
 
         Advertisement ad5 = Advertisement.builder()
-                .address(new Address("Gdańsk", ""))
+                .address(Address.builder()
+                        .city("Gdańsk")
+                        .build())
                 .build();
 
         Advertisement ad6 = Advertisement.builder()
-                .address(new Address("Sopot", ""))
+                .address(Address.builder()
+                        .city("Sopot")
+                        .build())
                 .build();
 
         exampleData = List.of(ad1, ad2, ad3, ad4, ad5, ad6);

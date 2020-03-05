@@ -46,7 +46,7 @@ public class AdvertisementAddTest extends LoginTest {
         //given
         request = AdvertisementSaveRequest.builder()
                 .address(AddressSaveRequest.builder()
-                        .city("Warsaw")
+                        .city("Warszawa")
                         .postCode("00-020")
                         .build())
                 .category(Category.CATS)
@@ -84,7 +84,8 @@ public class AdvertisementAddTest extends LoginTest {
                         .header("Authorization", userToken)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(content().string(containsString("\"lat\":52.23244709999999,\"lng\":21.0145559")));
     }
 
     @Test

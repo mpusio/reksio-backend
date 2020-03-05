@@ -2,6 +2,7 @@ package com.reksio.restbackend.integrateTests.advertisement;
 
 import com.google.gson.Gson;
 import com.reksio.restbackend.advertisement.dto.AdvertisementUpdateRequest;
+import com.reksio.restbackend.advertisement.dto.adress.AddressUpdateRequest;
 import com.reksio.restbackend.collection.advertisement.Address;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
 import com.reksio.restbackend.collection.advertisement.Category;
@@ -54,15 +55,15 @@ public class AdvertisementUpdateTest extends LoginTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(content().string(containsString("\"lat\":52.23244709999999,\"lng\":21.0145559")));
     }
 
     private Advertisement initAdvertisement(){
         return Advertisement.builder()
                 .uuid(advUuid)
                 .address(Address.builder()
-                        .city("Warsaw")
-                        .postCode("00-020")
+                        .city("Gdańsk")
+                        .postCode("80-288")
                         .build())
                 .category(Category.CATS)
                 .contact(Contact.builder()
@@ -87,6 +88,10 @@ public class AdvertisementUpdateTest extends LoginTest {
     private AdvertisementUpdateRequest initAdvertisementUpdate(){
         return AdvertisementUpdateRequest.builder()
                 .uuid(advUuid)
+                .address(AddressUpdateRequest.builder()
+                        .city("Warsaw")
+                        .postCode("00-020")
+                        .build())
                 .price(3005)
                 .title("My cat! <3")
                 .description("Fck IT!")
