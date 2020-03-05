@@ -18,3 +18,4 @@ spring:
 
 activation-link: https://www.google.com
 reset-password-link: https://www.google.com
+google-maps-api-key: AIzaSyA1XySlsfAIMm9U-0Ry-BfZgALWb-ILf64

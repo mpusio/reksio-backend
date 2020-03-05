@@ -1,4 +1,4 @@
-package com.reksio.restbackend.unitTests.filter.type;
+package com.reksio.restbackend.unitTests.advertisement.filter.type;
 
 import com.reksio.restbackend.advertisement.filter.Filter;
 import com.reksio.restbackend.advertisement.filter.type.PriceFilter;

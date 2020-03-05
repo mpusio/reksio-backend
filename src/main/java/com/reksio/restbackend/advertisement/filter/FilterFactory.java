@@ -18,6 +18,8 @@ public class FilterFactory {
                 return new PetTypeFilter(value);
             case "age":
                 return new PetAgeFilter(value);
+            case "city":
+                return new CityFilter(value);
         }
         throw new FilterNotFoundException("Cannot find filter by parameter " + parameter);
     }

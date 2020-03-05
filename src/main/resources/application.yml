@@ -30,3 +30,5 @@ amazonProperties:
 
 activation-link: http://www.frontend-link-to-activate-account.com
 reset-password-link: http://www.frontend-link-to-reset-password.com
+
+google-maps-api-key: AIzaSyA1XySlsfAIMm9U-0Ry-BfZgALWb-ILf64

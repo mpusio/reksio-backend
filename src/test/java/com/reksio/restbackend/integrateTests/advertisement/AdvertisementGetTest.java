@@ -23,7 +23,7 @@ public class AdvertisementGetTest extends LoginTest {
     }
 
     @Test
-    public void shouldSaveAdvertisement() throws Exception {
+    public void shouldGetAdvertisement() throws Exception {
         //when, then
         this.mockMvc
                 .perform(get("/api/v1/advertisement")

@@ -1,10 +1,8 @@
-package com.reksio.restbackend.unitTests.filter.type;
+package com.reksio.restbackend.unitTests.advertisement.filter.type;
 
 import com.reksio.restbackend.advertisement.filter.Filter;
 import com.reksio.restbackend.advertisement.filter.type.PetAgeFilter;
-import com.reksio.restbackend.advertisement.filter.type.PetGenderFilter;
 import com.reksio.restbackend.collection.advertisement.Advertisement;
-import com.reksio.restbackend.collection.advertisement.pets.Gender;
 import com.reksio.restbackend.collection.advertisement.pets.Pet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
